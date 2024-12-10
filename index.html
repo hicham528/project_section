@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hicham Drakech Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <section id="project_page">
+      <h1>Portfolio</h1>
+      <h2>My Last Project</h2>
+      <i class="fa-solid fa-moon" id="change_mode-2"></i>
+      <div class="all_project">
+        <div class="only_project">
+          <div class="img_details">
+            <img src="images/Macbook-Air-hicham528.github.io (4).png" alt="" />
+          </div>
+          <div class="btn_details">
+            <a href="https://hicham528.github.io/easybank-landing-page-master/">preview site</a>
+            <a href="https://github.com/hicham528/easybank-landing-page-master.git">view code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Toggle dark mode
+      let change_mode_2 = document.getElementById("change_mode-2");
+
+      change_mode_2.onclick = () => {
+        document.body.classList.toggle("dark_mode");
+        if (document.body.classList.contains("dark_mode")) {
+          change_mode_2.classList.replace("fa-moon", "fa-sun");
+        } else {
+          change_mode_2.classList.replace("fa-sun", "fa-moon");
+        }
+      };
+
+      // Fetching project data
+      let all_project = document.querySelector(".all_project");
+let newArray = [];
+
+// Fetch project data from the JSON file
+const fetchFile = () => {
+  fetch("projects.json")
+    .then((resp) => {
+      if (!resp.ok) {
+        throw new Error("Failed to fetch projects.json");
+      }
+      return resp.json();
+    })
+    .then((data) => {
+      newArray = data;
+      createAllProjects();
+    })
+    .catch((error) => {
+      console.error("Error fetching project data:", error);
+    });
+};
+
+fetchFile();
+
+// Create and display project cards
+const createAllProjects = () => {
+  if (newArray.length > 0) {
+    all_project.innerHTML="";
+    newArray.forEach((item) => {
+      const parentDiv = document.createElement("div");
+      parentDiv.classList.add("only_project");
+      parentDiv.innerHTML = `
+        <div class="img_details">
+          <img src="${item.image.Image}" alt="Project Image" />
+        </div>
+        <div class="btn_details">
+          <a href="${item.image.preview_site_url}" target="_blank">Preview site</a>
+          <a href="${item.image.source_code_url}" target="_blank">View code</a>
+        </div>
+      `;
+      all_project.appendChild(parentDiv);
+    });
+  } else {
+    all_project.innerHTML = "<p>No projects to display.</p>";
+  }
+};
+
+    </script>
+  </body>
+</html>
